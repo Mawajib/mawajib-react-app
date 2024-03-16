@@ -1,118 +1,101 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { View, Text, Image, TextInput, Button, StyleSheet } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+const sign_in =(user_name, password)=>{
+    if ((user_name == "Shahiryar") && (password === "12345678")){
+        return true
+    }else{
+        return false
+    }
+}
+
+const Login = () => {
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={styles.container}>
+      {/* Header */}
+      <Image source={require('./assets/logo.png')} style={{width: 250, height: 250}}/>
+
+      {/* Title */}
+      <Text style={styles.titleText}>Sign In</Text>
+
+      {/* Input Fields */}
+      <TextInput
+        style={styles.textInput}
+        placeholder="Email address"
+        keyboardType="email-address"
+        autoCapitalize="none"
+      />
+      <TextInput
+        style={styles.textInput}
+        placeholder="Password"
+        secureTextEntry={true}
+      />
+
+      {/* Remember Me Checkbox */}
+      <View style={styles.checkboxContainer}>
+        <Text style={styles.checkboxText}>Remember Me</Text>
+      </View>
+
+      {/* Forgot Password Link */}
+      <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+
+      {/* Login Button */}
+      <Button title="SIGN IN" color="#681F2A" style={styles.button}/>
+
+      {/* Social Login Buttons (Optional) */}
+      {/* ... */}
+
+      {/* Signup Link */}
+      <View style={styles.signupContainer}>
+        <Text>Don't have an account?</Text>
+        <Button title="Sign Up" color="#681F2A" style={{height:120}}></Button>
+      </View>
     </View>
   );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+};
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#FFFFFF',
   },
-  sectionTitle: {
+  headerText: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  titleText: {
+    fontSize: 20,
+    marginBottom: 10,
   },
-  highlight: {
-    fontWeight: '700',
+  textInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
   },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  checkboxText: {
+    marginLeft: 5,
+  },
+  forgotPasswordText: {
+    marginBottom: 10,
+    textAlign: 'right',
+  },
+    button: {
+      height: 70,
+      borderRadius: 100,
+      marginTop: 10,
+    },
 });
 
-export default App;
+export default Login;
