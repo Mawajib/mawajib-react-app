@@ -1,101 +1,72 @@
-import React from 'react';
-import { View, Text, Image, TextInput, Button, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { FlatList, View , StyleSheet} from 'react-native';
+import ServiceCard from './components/ServiceCard'; // Assuming your ServiceCard is in a separate file.
+import SearchBar from './components/SearchBar'
 
+const servicesData = [
+  {
+    id: 1,
+    imageUrl: 'https://plus.unsplash.com/premium_photo-1673897888993-a1db844c2ca1?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Placeholder image
+    title: 'Elegant Wedding Decorations',
+    vendor: 'Floral Dreams',
+    rating: 3,
+    location: '182C, 3km, Clifton Road, Karachi',
+    isSaved:true
+  },{
+    id: 2,
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Wedding_cake_with_pillar_supports%2C_2009.jpg/1200px-Wedding_cake_with_pillar_supports%2C_2009.jpg', // Placeholder image
+    title: 'Layers Wedding Cakes',
+    vendor: 'Layers Bakery',
+    rating: 5,
+    location: '239, R3, Johar Town, Lahore',
+    isSaved:false
+  },{
+    id: 3,
+    imageUrl: 'https://images.unsplash.com/photo-1561593367-66c79c2294e6?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Placeholder image
+    title: 'Catering Utensils',
+    vendor: 'Mawajib Catering Services',
+    rating: 2,
+    location: 'Phase 9, DHA, near Ring Road, Lahore',
+    isSaved:false
+  },{
+      id: 4,
+      imageUrl: 'https://images.unsplash.com/photo-1618107095181-e3ba0f53ee59?q=80&w=2706&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Placeholder image
+      title: 'Wedding DJ',
+      vendor: 'DJ Mehdi',
+      rating: 3,
+      location: 'Phase 9, DHA, near Ring Road, Lahore',
+      isSaved:true
+    },
+];
 
+const App = () => {
+  const [savedServices, setSavedServices] = useState([]);
 
-const sign_in =(user_name, password)=>{
-    if ((user_name == "Shahiryar") && (password === "12345678")){
-        return true
-    }else{
-        return false
-    }
-}
-
-const Login = () => {
+  const handleSave = (serviceId) => {
+    setSavedServices((prevServices) =>
+      prevServices.includes(serviceId)
+        ? prevServices.filter((id) => id !== serviceId) // Remove if already saved
+        : [...prevServices, serviceId] // Add if not saved
+    );
+  };
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <Image source={require('./assets/logo.png')} style={{width: 250, height: 250}}/>
+  <>
+  <SearchBar/>
+    <FlatList
+      data={servicesData}
+      renderItem={({ item }) => (
+        <ServiceCard
+          service={item}
+          onPressSave={() => handleSave(item.id)}
+          isSaved={savedServices.includes(item.id)} // Add prop for saved state
+        />
+      )}
+      keyExtractor={(item) => item.id}
 
-      {/* Title */}
-      <Text style={styles.titleText}>Sign In</Text>
-
-      {/* Input Fields */}
-      <TextInput
-        style={styles.textInput}
-        placeholder="Email address"
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        style={styles.textInput}
-        placeholder="Password"
-        secureTextEntry={true}
-      />
-
-      {/* Remember Me Checkbox */}
-      <View style={styles.checkboxContainer}>
-        <Text style={styles.checkboxText}>Remember Me</Text>
-      </View>
-
-      {/* Forgot Password Link */}
-      <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-
-      {/* Login Button */}
-      <Button title="SIGN IN" color="#681F2A" style={styles.button}/>
-
-      {/* Social Login Buttons (Optional) */}
-      {/* ... */}
-
-      {/* Signup Link */}
-      <View style={styles.signupContainer}>
-        <Text>Don't have an account?</Text>
-        <Button title="Sign Up" color="#681F2A" style={{height:120}}></Button>
-      </View>
-    </View>
+      contentContainerStyle={{ padding: 20 }}
+    />
+  </>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    backgroundColor: '#FFFFFF',
-  },
-  headerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  titleText: {
-    fontSize: 20,
-    marginBottom: 10,
-  },
-  textInput: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  checkboxText: {
-    marginLeft: 5,
-  },
-  forgotPasswordText: {
-    marginBottom: 10,
-    textAlign: 'right',
-  },
-    button: {
-      height: 70,
-      borderRadius: 100,
-      marginTop: 10,
-    },
-});
-
-export default Login;
+export default App;
